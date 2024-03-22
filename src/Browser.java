@@ -35,6 +35,8 @@ public class Browser {
         internet.add(wiki);
         Webpage google = new Webpage("Google","Search for anything on the web!");
         internet.add(google);
+        Webpage pokemon = new PokemonWebpage("Pokemon","Get a pokemon for yourself.");
+        internet.add(pokemon);
 
         //(Optional) Add your own created webpages below this line
 
@@ -57,17 +59,18 @@ public class Browser {
         boolean found = false;
         for (int i = 0; i < internet.size(); i++) {
             if (name.equals(internet.get(i).getName())) {
+                browserForward.clear();
+                browserBack.push(currentPage);
                 currentPage = internet.get(i);
                 currentPage.display();
-                browserForward.push(currentPage);
                 found = true;
             }
         }
         if (!found) {
             Webpage temp = new Webpage(name, "Error 404");
-            browserForward.push(temp);
+            browserBack.push(temp);
+            System.out.println("Error 404");
         }
-
     }
 
     //TODO
@@ -75,7 +78,13 @@ public class Browser {
     //If there is no webpage to go back to, print a message that explains
     //that the user cannot go back any further
     public void goBack() {
-
+        if (browserBack.size() > 0) {
+            browserForward.push(currentPage);
+            currentPage = browserBack.pop();
+            currentPage.display();
+        } else {
+            System.out.println("There is no other page to go back to.");
+        }
     }
 
     //TODO
@@ -84,7 +93,13 @@ public class Browser {
     //If there is no webpage to revisit, print a message that explains
     //that the user cannot go forward any further
     public void goForward() {
-
+        if (browserForward.size() > 0) {
+            browserBack.push(currentPage);
+            currentPage = browserForward.pop();
+            currentPage.display();
+        } else {
+            System.out.println("There is no other page to go forward to.");
+        }
     }
 
     //TODO
@@ -93,7 +108,14 @@ public class Browser {
     //If there is no browsing history to view
     //print a message that explains that to the user instead
     public void viewBrowserBackAndForward() {
-
+        if (!browserBack.isEmpty() || !browserForward.isEmpty()) {
+            System.out.println("Back");
+            System.out.println(browserBack);
+            System.out.println("Front");
+            System.out.println(browserForward);
+        } else {
+            System.out.println("No browsing history");
+        }
     }
 
     public void run() {
@@ -131,5 +153,4 @@ public class Browser {
             }
         }
     }
-
 }

@@ -1,3 +1,5 @@
+import java.lang.reflect.Array;
+
 public class Webpage {
     private String name;
     private String content;
@@ -19,4 +21,5 @@ public class Webpage {
         System.out.println("Name: " + name + "\n");
         System.out.println(content);
     }
+
 }
